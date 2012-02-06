@@ -12,6 +12,6 @@ build = (callback) ->
 
 task 'run', (options)->
   build ->
-    Notifiction = require "notifiction"
-    notifiction = new Notifiction(5000)
-    notifiction.start()
+    Atmos2 = require "atmos2"
+    atmos2 = new Atmos2(5000)
+    atmos2.start()

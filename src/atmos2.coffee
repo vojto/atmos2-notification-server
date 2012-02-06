@@ -2,7 +2,7 @@
 io = require "socket.io"
 express = require "express"
 
-class Notifiction
+class Atmos2
   constructor: (port) ->
     @port = port
   
@@ -30,4 +30,4 @@ class Notifiction
     res.writeHead(500)
     res.end("500: #{message}")
 
-module.exports = Notifiction
+module.exports = Atmos2
