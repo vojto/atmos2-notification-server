@@ -13,19 +13,33 @@ class Atmos2
     log "Starging on port #{@port}"
     @server = express.createServer()
     @server.use express.bodyParser()
-    @server.post '/', this.didReceiveRequest
+    @_routing()
     @server.listen(@port)
     
     @socket = io.listen(@server)
     @socket.sockets.on 'connection', this.clientConnected
   
-  didReceiveRequest: (req, res) =>
-    data = JSON.parse(req.body.payload)
-    log "Received data: ", data
-    return this._endWithError(req, "Received notification without type") unless data.type?
-    @socket.sockets.emit "notification", data
+  _routing: ->
+    @server.post '/notification', this.notification
+    @server.post '/update', this.update
+
+  notification: (req, res) =>
+    @parse("notification", req, res)
+  
+  update: (req, res) =>
+    @parse("update", req, res)
+
+  # TODO for both:
+  # Send only to those users included in the users list.
+  parse: (type, req, res) ->
+    {data, users} = @_payload(req)
+    log "New #{type}: ", data, users
+    @socket.sockets.emit type, data
     res.writeHead(200)
-    res.end("200: Notified")
+    res.end("200: #{type} sent")
+  
+  _payload: (req) ->
+    JSON.parse(req.body.payload)
   
   clientConnected: (socket) ->
     log "Socket client connected"
