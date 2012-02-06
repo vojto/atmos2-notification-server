@@ -1,4 +1,0 @@
-coffee-script
-ansi-color
-socket.io
-express
