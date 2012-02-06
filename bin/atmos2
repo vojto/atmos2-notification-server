@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+var argv   = process.argv.slice(2),
+    path   = require('path'),
+    Module = require('module'),
+    fs     = require('fs');
+
+if (argv.length == '0') {
+  console.log('usage: atmos2 <port>');
+  process.exit(0);
+} else {
+  require('../lib/atmos2').start(argv[0]);
+}

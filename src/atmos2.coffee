@@ -6,7 +6,11 @@ class Atmos2
   constructor: (port) ->
     @port = port
   
+  @start: (port) ->
+    new Atmos2(port).start()
+  
   start: () ->
+    log "Starging on port #{@port}"
     @server = express.createServer()
     @server.use express.bodyParser()
     @server.post '/', this.didReceiveRequest
